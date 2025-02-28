@@ -59,7 +59,7 @@ html, body, .menu-container {
   margin: 1.5rem;
   font-size: 2.5rem;
 }
-.item-name > *, .dietary-legend > span > * {
+.item-name > *, .legend > span > * {
   vertical-align: middle;
 }
 .item-price {
@@ -78,7 +78,13 @@ html, body, .menu-container {
   height: 1.75rem;
   margin-left: 0.6rem;
 }
-.dietary-legend {
+.item-low-stock-icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-left: 0.6rem;
+}
+
+.legend {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -87,14 +93,21 @@ html, body, .menu-container {
   font-size: 2rem;
   color: var(--item-color);
 }
-.dietary-legend > span {
+.legend > span {
   margin-right: 0.75rem
 }
-.dietary-legend-icon {
+.legend-icon {
   width: 2rem;
   height: 2rem;
 }
+.legend-icon.low-stock-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
 
+.low-stock-icon {
+  color: #f19557;
+}
 .GF-icon {
   color: #cca300;
 }

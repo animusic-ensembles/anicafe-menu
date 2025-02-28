@@ -15,10 +15,10 @@ const updateDOM = (data) => {
   }
 };
 
-const createMenuItem = (itemName, price, soldOutFlag, dietaryList = []) => {
+const createMenuItem = (itemName, price, stock, dietaryList = []) => {
   const itemDiv = document.createElement("div");
   itemDiv.classList.add("item");
-  if (soldOutFlag) {
+  if (stock == "none") {
     itemDiv.classList.add("strikethrough");
   }
   
@@ -30,6 +30,17 @@ const createMenuItem = (itemName, price, soldOutFlag, dietaryList = []) => {
 
   nameSpan.appendChild(nameText);
 
+  if (stock == "low") {
+    const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgIcon.setAttribute("role", "img");
+    svgIcon.classList.add("item-low-stock-icon", "low-stock-icon");
+
+    const useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    useElement.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#low-stock");
+    
+    svgIcon.appendChild(useElement);
+    nameSpan.appendChild(svgIcon);
+  }
   dietaryList.filter((dietary) => dietary != "*").forEach(dietary => {
     const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svgIcon.setAttribute("role", "img");
@@ -66,7 +77,7 @@ const createMenuCategory = (categoryName, categoryItems) => {
   itemsDiv.classList.add("items");
 
   categoryItems.forEach(item => {
-    const itemDiv = createMenuItem(item.itemName, item.price, false, item.flags);
+    const itemDiv = createMenuItem(item.itemName, item.price, item.stock, item.flags);
     itemsDiv.appendChild(itemDiv);
   });
 
