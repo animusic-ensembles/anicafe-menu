@@ -76,6 +76,7 @@ html, body, .menu-container {
 .dietary-icon {
   width: 1.75rem;
   height: 1.75rem;
+  margin-left: 0.6rem;
 }
 .dietary-legend {
   position: absolute;
