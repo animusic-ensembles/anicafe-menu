@@ -124,6 +124,12 @@ html, body, .menu-container {
   color: #29a329;
 }
 
+@media only screen and (min-width: 2000px) {
+  :root {
+      font-size: 20px;
+  }
+}
+
 @media only screen and (max-width: 1600px) {
   :root {
       font-size: 12px;
