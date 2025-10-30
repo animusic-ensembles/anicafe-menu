@@ -1,18 +1,18 @@
 @font-face {
   font-family: "BFPuDing-B5";
-  src: url("/F25/DFPuDing-B5.ttf") format("truetype");
+  src: url("../F25/DFPuDing-B5.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "Fink Heavy";
-  src: url("/F25/FinkHeavy Regular.ttf") format("truetype");
+  src: url("../F25/FinkHeavy Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "FOT Bokutoh Pro EB";
-  src: url("/F25/FOT-RodinBokutoh Pro EB.otf") format("opentype");
+  src: url("../F25/FOT-RodinBokutoh Pro EB.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
