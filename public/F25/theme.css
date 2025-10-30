@@ -51,3 +51,8 @@
     outline: 0.4rem solid var(--title-color);
     outline-offset: -1rem;
 }
+.title .logo {
+    width: 5rem;
+    aspect-ratio: 1 / 1; 
+    background-image: url(../F25/logo.png);
+}

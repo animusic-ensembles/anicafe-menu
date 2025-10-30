@@ -32,6 +32,9 @@ html, body {
 }
 
 .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: var(--title-font);
   font-weight: var(--title-font-weight);
   font-style: var(--title-font-style);
@@ -41,6 +44,12 @@ html, body {
   padding: 1.5rem 1.5rem;
   color: var(--title-color);
   background-color: var(--title-background-color);
+}
+
+.title .logo {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .header {
