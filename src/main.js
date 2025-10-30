@@ -1,4 +1,3 @@
-import './theme.css'
 import './style.css'
 import { listenForUpdates } from './firebase'
 

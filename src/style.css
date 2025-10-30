@@ -14,12 +14,14 @@
   padding: 0;
 }
 
-html, body, .menu-container {
+html, body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 .menu-container {
+  width: 100%;
+  height: calc(100vh - 7rem);
   display: flex;
   background-color: var(--background-color);
 }
@@ -29,6 +31,18 @@ html, body, .menu-container {
   height: 100%;
 }
 
+.title {
+  font-family: var(--title-font);
+  font-weight: var(--title-font-weight);
+  font-style: var(--title-font-style);
+
+  text-align: center;
+  font-size: 4rem;
+  padding: 1.5rem 1.5rem;
+  color: var(--title-color);
+  background-color: var(--title-background-color);
+}
+
 .header {
   font-family: var(--header-font);
   font-weight: var(--header-font-weight);
@@ -36,7 +50,7 @@ html, body, .menu-container {
 
   text-align: center;
   font-size: 3rem;
-  padding: 1rem 1.5rem;
+  padding: 0.6rem 1.5rem;
   color: var(--header-color);
 }
 
@@ -57,7 +71,7 @@ html, body, .menu-container {
   display: flex;
   justify-content: space-between;
   margin: 1.5rem;
-  font-size: 2.5rem;
+  font-size: var(--base-font-size);
 }
 .item-name > *, .legend > span > * {
   vertical-align: middle;
@@ -71,11 +85,12 @@ html, body, .menu-container {
   
   color: var(--item-color-variant);
   text-decoration-color: var(--strikethrough-color);
+  text-decoration-thickness: 0.2rem;
 }
 
 .dietary-icon {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--dietary-icon-size);
+  height: var(--dietary-icon-size);
   margin-left: 0.6rem;
 }
 .item-low-stock-icon {
@@ -90,19 +105,19 @@ html, body, .menu-container {
   bottom: 0;
   width: 33%;
   padding: 1.5rem;
-  font-size: 2rem;
+  font-size: var(--legend-font-size);
   color: var(--item-color);
 }
 .legend > span {
   margin-right: 0.75rem
 }
 .legend-icon {
-  width: 2rem;
-  height: 2rem;
+  width: var(--legend-icon-size);
+  height: var(--legend-icon-size);
 }
 .legend-icon.low-stock-icon {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: calc(var(--legend-icon-size) - 0.4rem);
+  height: calc(var(--legend-icon-size) - 0.4rem);
 }
 
 .low-stock-icon {
@@ -143,5 +158,14 @@ html, body, .menu-container {
 @media only screen and (max-width: 1200px) {
   :root {
       font-size: 10px;
+  }
+}
+
+@media (orientation: portrait) {
+  .menu-container {
+    flex-direction: column;
+  }
+  .legend {
+    width: 100%;
   }
 }

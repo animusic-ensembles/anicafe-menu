@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Mansalva&display=swap');
+
+:root {
+    --header-font: "Mansalva";
+    --header-font-weight: 400;
+    --header-font-style: normal;
+
+    --base-font: "Gamja Flower";
+    --base-font-weight: 400;
+    --base-font-style: normal;
+  
+    --drinks-color: #5375b9;
+    --food-color: #408b40;
+    --specialty-color: #8a3d8a;
+    --header-color: #ffffff;
+    --item-color: #423627;
+    --item-color-variant: #dfc6ac;
+    --strikethrough-color: #ff6666;
+    --background-color: #f3e6d8;
+}
