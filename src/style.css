@@ -46,7 +46,7 @@ html, body {
   background-color: var(--title-background-color);
 }
 
-.title .logo {
+.title::before, .title::after {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
