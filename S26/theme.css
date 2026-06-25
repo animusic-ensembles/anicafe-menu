@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "BFPuDing-B5";
+  src: url("../F25/DFPuDing-B5.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Fink Heavy";
+  src: url("../F25/FinkHeavy Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "FOT Bokutoh Pro EB";
+  src: url("../F25/FOT-RodinBokutoh Pro EB.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pirata One";
+  src: url("../S26/PirataOne-Regular.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Eagle Lake";
+  src: url("../S26/EagleLake-Regular.ttf") format("opentype");
+  font-weight: 800;
+  font-style: bold;
+}
+
+
+:root {
+  --title-font: "Pirata One";
+  --title-font-weight: 400;
+  --title-font-style: normal;
+
+  --header-font: "Pirata One";
+  --header-font-weight: 400;
+  --header-font-style: normal;
+
+  --base-font: "Eagle Lake";
+  --base-font-weight: 800;
+  --base-font-style: bold;
+  --base-font-size: 1.8rem;
+  --dietary-icon-size: 1.6rem;
+
+  --legend-font-size: 1.2rem;
+  --legend-icon-size: 1.8rem;
+
+  --drinks-color: #3a5a8a;
+  --food-color: #3a5a8a;
+  --specialty-color: #3a5a8a;
+  --title-color: #f7f1e2;
+  --title-background-color: #7e4b3c;
+  --header-color: #f9f2e3;
+  --item-color: #563c3a;
+  --item-color-variant: #c5ae7f;
+  --strikethrough-color: #ff6666;
+  --background-color: #f7f1e2;
+}
+
+.title {
+  outline: 0.4rem solid var(--title-color);
+  outline-offset: -1rem;
+}
