@@ -1,6 +1,8 @@
 ---
 import { getImage } from "astro:assets";
 import record from "./logo.png";
+import Menu from "../../components/Menu.astro";
+import WhatsOn from "./WhatsOn.astro";
 import "./theme.css";
 
 // About three times the size it is shown at, for sharp edges on high-density screens.
@@ -35,3 +37,7 @@ const optimizedRecord = await getImage({ src: record, width: 450, format: "webp"
     </svg>
   </h1>
 </header>
+
+<Menu>
+  <WhatsOn slot="aside" />
+</Menu>

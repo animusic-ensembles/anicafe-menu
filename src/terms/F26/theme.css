@@ -53,6 +53,10 @@
   --specialty-color: #d8cff7;
   --bakes-cakes-color: var(--food-color);
   --cookies-color: var(--specialty-color);
+  --whats-on-background-color: var(--header-color);
+  --whats-on-text-color: #f4fbfa;
+  --whats-on-muted-color: var(--drinks-color);
+  --whats-on-accent-color: #f9d98a;
   --title-color: var(--aniexpo-teal);
   --title-background-color: transparent;
   --header-color: #1f5557;
@@ -108,6 +112,138 @@
   z-index: -1;
   border-radius: 999px;
   background-color: var(--category-color);
+}
+
+/* A dark panel set in the logo's typeface, so event details never read as another menu category.
+   It reaches past the column on each side so its rows still line up with the menu items beside it. */
+.whats-on {
+  position: relative;
+  isolation: isolate;
+  margin-inline: -1rem;
+  padding: 1.5rem 1rem 1.75rem;
+  color: var(--whats-on-text-color);
+}
+.whats-on::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 2rem;
+  background-color: var(--whats-on-background-color);
+}
+
+.whats-on-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1.5rem;
+}
+.whats-on-kicker {
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: var(--legend-font-size);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--whats-on-muted-color);
+}
+.whats-on-dots {
+  display: flex;
+  gap: 0.6rem;
+}
+.whats-on-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background-color: var(--whats-on-muted-color);
+  opacity: 0.35;
+  transition: opacity 0.6s, background-color 0.6s;
+}
+.whats-on-dot.is-current {
+  background-color: var(--whats-on-accent-color);
+  opacity: 1;
+}
+
+.whats-on-slides {
+  display: grid;
+}
+.whats-on-slide {
+  grid-area: 1 / 1;
+  padding-inline: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+.whats-on-slide.is-current {
+  opacity: 1;
+  visibility: visible;
+}
+/* Chango has a single weight; anything heavier would be faked by thickening the strokes. */
+.whats-on-title {
+  margin-top: 0.75rem;
+  font-family: "Chango", sans-serif;
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+.whats-on-where {
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-size: var(--legend-font-size);
+  color: var(--whats-on-accent-color);
+}
+.whats-on-blurb {
+  padding-top: 1rem;
+  font-size: var(--base-font-size);
+  text-wrap: pretty;
+}
+
+/* Rows share one lead column so the text lines up however wide each time or bullet is. */
+.whats-on-rows {
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 1.5rem;
+  padding: 1rem 0 0;
+}
+.whats-on-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  font-size: var(--base-font-size);
+}
+.whats-on-lead {
+  font-family: var(--header-font);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--whats-on-accent-color);
+}
+.whats-on-note {
+  margin-left: 0.8rem;
+  font-size: var(--legend-font-size);
+  color: var(--whats-on-muted-color);
+}
+
+/* The box fills the bottom-left corner, so the legend moves beside it rather than below the menu. */
+@media (orientation: landscape) {
+  body {
+    position: relative;
+  }
+  .legend {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 0;
+  }
+  /* The shadow carries the box on past the left and bottom edges of the screen, so it looks like it
+     slides in from outside. Unlike a positioned layer, it takes no space, so the menu's columns stay
+     the height of their content. */
+  .whats-on {
+    padding-bottom: 0;
+    box-shadow: -100vmax 100vmax 0 100vmax var(--whats-on-background-color);
+    clip-path: inset(0 0 -100vmax -100vmax);
+  }
+  .whats-on::before {
+    border-radius: 0 2rem 0 0;
+  }
 }
 
 .item-price {

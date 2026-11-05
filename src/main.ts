@@ -66,9 +66,15 @@ window.addEventListener("online", updateConnection);
 window.addEventListener("offline", updateConnection);
 renderStatus(state);
 
+const aside = container.querySelector(".menu-aside");
+
 const showMenu = (menu: MenuCategory[]) => {
-  container.replaceChildren(...renderMenu(menu));
-  container.style.setProperty("--columns", String(columnCount(menu)));
+  const columns = columnCount(menu);
+  const categories = renderMenu(menu);
+  // Where the aside shows depends on the layout, which the stylesheet decides from here.
+  container.replaceChildren(...categories.slice(0, 1), ...(aside ? [aside] : []), ...categories.slice(1));
+  container.style.setProperty("--columns", String(columns));
+  container.classList.toggle("single-column", columns === 1);
   legend.replaceChildren(...renderLegend(menu));
   legend.hidden = legend.childElementCount === 0;
 };

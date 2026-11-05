@@ -39,7 +39,9 @@ Categories appear in ascending `position`; categories without one come last, in 
 
 ## Themes
 
-Each term has a folder in `src/terms/` with everything specific to it: a `Term.astro` component with the content shown above the menu, such as the title banner, its `theme.css`, and any fonts or images it uses. The `Term` import in `src/pages/index.astro` picks which term is built and deployed. The rest of the page, including the menu status and legend, is shared in that page.
+Each term has a folder in `src/terms/` with everything specific to it: a `Term.astro` component that lays out the page, its `theme.css`, and any fonts or images it uses. The `Term` import in `src/pages/index.astro` picks which term is built and deployed.
+
+A `Term.astro` renders whatever goes above the menu, such as the title banner, followed by the shared `Menu` component from `src/components/Menu.astro`, which holds the menu status, the menu itself and the legend. A term can pass `Menu` an `aside` slot for content that sits in the menu, such as F26's What's Happening box in `src/terms/F26/WhatsOn.astro`. On a landscape screen with more than one column the aside goes under the first category and ends the first column; in portrait or a single column it follows the menu.
 
 To start a new term, copy `src/terms/S26` to a new folder, edit its `Term.astro` and theme, and point the `Term` import at it. Assets are referenced relatively and bundled with the term, so only the fonts and images the selected term references are deployed. Layout styles live in `src/style.css`; longer menus scroll.
 
