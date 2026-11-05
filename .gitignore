@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+# Astro generated types
+.astro/

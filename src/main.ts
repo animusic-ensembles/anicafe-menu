@@ -1,4 +1,3 @@
-import "./style.css";
 import { collection, onSnapshot, orderBy, query, type QuerySnapshot } from "firebase/firestore";
 import { createDatabase } from "./firebase";
 import { menuFromDocs } from "./fromFirestore";
