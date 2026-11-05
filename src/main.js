@@ -3,18 +3,31 @@ import { listenForUpdates } from './firebase'
 
 const container = document.querySelector(".menu-container");
 
+const FALLBACK_COLORS = ["--drinks-color", "--food-color", "--specialty-color"];
+
+// Category names are free-form and must become valid class and variable names.
+const toSlug = (name) =>
+  String(name).toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+// Older menus stored dollars in `price`.
+const toCents = (item) =>
+  typeof item.priceCents === "number" ? item.priceCents
+    : typeof item.price === "number" ? Math.round(item.price * 100)
+    : 0;
+
 // Function to update the UI
 const updateDOM = (data) => {
   console.log(JSON.parse(JSON.stringify(data)));
   container.innerHTML = "";
 
-  for (let category of data) {
-    const categoryDiv = createMenuCategory(category.categoryName, category.items);
-    container.appendChild(categoryDiv);
-  }
+  data
+    .filter((category) => category.categoryName && category.items?.length)
+    .forEach((category, index) => {
+      container.appendChild(createMenuCategory(category.categoryName, category.items, index));
+    });
 };
 
-const createMenuItem = (itemName, price, stock, dietaryList = []) => {
+const createMenuItem = (itemName, priceCents, stock, dietaryList = []) => {
   const itemDiv = document.createElement("div");
   itemDiv.classList.add("item");
   if (stock == "none") {
@@ -40,7 +53,8 @@ const createMenuItem = (itemName, price, stock, dietaryList = []) => {
     svgIcon.appendChild(useElement);
     nameSpan.appendChild(svgIcon);
   }
-  dietaryList.filter((dietary) => dietary != "*").forEach(dietary => {
+  // Custom flags have no icon.
+  dietaryList.filter((dietary) => dietary != "*" && document.getElementById(dietary)).forEach(dietary => {
     const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svgIcon.setAttribute("role", "img");
     svgIcon.classList.add(`${dietary}-icon`, "dietary-icon");
@@ -54,7 +68,7 @@ const createMenuItem = (itemName, price, stock, dietaryList = []) => {
 
   const priceSpan = document.createElement("span");
   priceSpan.classList.add("item-price");
-  priceSpan.textContent = `$${price.toFixed(2)}`;
+  priceSpan.textContent = `$${(priceCents / 100).toFixed(2)}`;
 
   itemDiv.appendChild(nameSpan);
   itemDiv.appendChild(priceSpan);
@@ -62,12 +76,18 @@ const createMenuItem = (itemName, price, stock, dietaryList = []) => {
   return itemDiv;
 }
 
-const createMenuCategory = (categoryName, categoryItems) => {
+const createMenuCategory = (categoryName, categoryItems, index) => {
   const categoryDiv = document.createElement("div");
   categoryDiv.classList.add("category");
 
   const header = document.createElement("h1");
-  header.classList.add("header", `${categoryName.toLowerCase()}-header`);
+  const slug = toSlug(categoryName);
+  header.classList.add("header");
+  if (slug) {
+    header.classList.add(`${slug}-header`);
+  }
+  const fallback = `var(${FALLBACK_COLORS[index % FALLBACK_COLORS.length]})`;
+  header.style.setProperty("--category-color", slug ? `var(--${slug}-color, ${fallback})` : fallback);
   header.textContent = categoryName;
 
   categoryDiv.appendChild(header);
@@ -76,7 +96,7 @@ const createMenuCategory = (categoryName, categoryItems) => {
   itemsDiv.classList.add("items");
 
   categoryItems.forEach(item => {
-    const itemDiv = createMenuItem(item.itemName, item.price, item.stock, item.flags);
+    const itemDiv = createMenuItem(item.itemName, toCents(item), item.stock, item.flags);
     itemsDiv.appendChild(itemDiv);
   });
 

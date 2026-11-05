@@ -62,18 +62,7 @@ html, body {
   font-size: 3rem;
   padding: 0.6rem 1.5rem;
   color: var(--header-color);
-}
-
-.drinks-header {
-  background-color: var(--drinks-color);
-}
-
-.food-header {
-  background-color: var(--food-color);
-}
-
-.specialty-header {
-  background-color: var(--specialty-color);
+  background-color: var(--category-color);
 }
 
 .item {
