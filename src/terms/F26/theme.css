@@ -177,7 +177,6 @@
   opacity: 1;
   visibility: visible;
 }
-/* Chango has a single weight; anything heavier would be faked by thickening the strokes. */
 .whats-on-title {
   margin-top: 0.75rem;
   font-family: "Chango", sans-serif;
@@ -222,26 +221,20 @@
   color: var(--whats-on-muted-color);
 }
 
-/* The box fills the bottom-left corner, so the legend moves beside it rather than below the menu. */
+/* With several columns, the legend sits beside the panel's extended background. */
 @media (orientation: landscape) {
-  body {
-    position: relative;
-  }
-  .legend {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    right: 0;
+  .menu-container:not(.single-column) ~ .legend {
+    margin-left: 50%;
   }
   /* The shadow carries the box on past the left and bottom edges of the screen, so it looks like it
      slides in from outside. Unlike a positioned layer, it takes no space, so the menu's columns stay
      the height of their content. */
-  .whats-on {
+  .menu-container:not(.single-column) .whats-on {
     padding-bottom: 0;
     box-shadow: -100vmax 100vmax 0 100vmax var(--whats-on-background-color);
     clip-path: inset(0 0 -100vmax -100vmax);
   }
-  .whats-on::before {
+  .menu-container:not(.single-column) .whats-on::before {
     border-radius: 0 2rem 0 0;
   }
 }

@@ -71,7 +71,7 @@ const aside = container.querySelector(".menu-aside");
 const showMenu = (menu: MenuCategory[]) => {
   const columns = columnCount(menu);
   const categories = renderMenu(menu);
-  // Where the aside shows depends on the layout, which the stylesheet decides from here.
+  // The aside follows the first category so CSS can end the first column after it.
   container.replaceChildren(...categories.slice(0, 1), ...(aside ? [aside] : []), ...categories.slice(1));
   container.style.setProperty("--columns", String(columns));
   container.classList.toggle("single-column", columns === 1);
