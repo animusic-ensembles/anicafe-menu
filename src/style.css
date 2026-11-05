@@ -29,7 +29,7 @@ body {
   --column-gap: 3rem;
   width: 100%;
   max-width: calc(var(--columns, 1) * (48rem + var(--column-gap)));
-  margin: auto;
+  margin: 0 auto auto;
   padding: 2rem clamp(1rem, 4vw, var(--column-gap));
   column-count: var(--columns, 1);
   column-gap: var(--column-gap);

@@ -9,6 +9,9 @@ const MAX_COLUMNS = 3;
 
 const HEADER_ROWS = 1.5;
 
+// Text scales with viewport height on landscape screens, so a screen holds about this many rows.
+const ROWS_PER_COLUMN = 10;
+
 interface Options {
   classes?: string[];
   attributes?: Record<string, string>;
@@ -116,11 +119,23 @@ const menuCategory = ({ categoryName, items }: MenuCategory, index: number) => {
 export const visibleCategories = (menu: MenuCategory[]) =>
   menu.filter((category) => category.categoryName && category.items.length > 0);
 
-// Categories never split across columns, so the tallest one sets the column height.
+// Categories stay whole and in order, so filling each column before starting the next uses the fewest columns.
+const columnsToFit = (heights: number[]) =>
+  heights.reduce(
+    ({ columns, used }, height) =>
+      used === 0 || used + height <= ROWS_PER_COLUMN
+        ? { columns, used: used + height }
+        : { columns: columns + 1, used: height },
+    { columns: 1, used: 0 },
+  ).columns;
+
+// Fewer, wider columns keep names from wrapping, so only add columns when the menu would not fit otherwise.
 export const columnCount = (menu: MenuCategory[]) => {
   const heights = visibleCategories(menu).map((category) => category.items.length + HEADER_ROWS);
   const total = heights.reduce((sum, height) => sum + height, 0);
-  return heights.length ? Math.min(Math.ceil(total / Math.max(...heights)), MAX_COLUMNS) : 1;
+  // Categories never split across columns, so beyond this the tallest one sets the height anyway.
+  const usefulColumns = heights.length ? Math.ceil(total / Math.max(...heights)) : 1;
+  return Math.min(columnsToFit(heights), usefulColumns, MAX_COLUMNS);
 };
 
 export const renderMenu = (menu: MenuCategory[]) => visibleCategories(menu).map(menuCategory);
