@@ -1,0 +1,140 @@
+@font-face {
+  font-family: "Fredoka";
+  src: url("./Fredoka-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 300 700;
+  font-stretch: 75% 125%;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Chango";
+  src: url("./Chango-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Zen Maru Gothic";
+  /* Only the title's katakana; the full font is several megabytes. */
+  src: url("./ZenMaruGothic-Regular-title.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./Nunito-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 1000;
+  font-style: normal;
+}
+
+:root {
+  --title-font: "Fredoka", sans-serif;
+  --title-font-weight: 700;
+  --title-font-style: normal;
+
+  --header-font: "Fredoka", sans-serif;
+  --header-font-weight: 650;
+  --header-font-style: normal;
+
+  --base-font: "Nunito", sans-serif;
+  --base-font-weight: 600;
+  --base-font-style: normal;
+  --base-font-size: 1.7rem;
+  --dietary-icon-size: 1.6rem;
+
+  --legend-font-size: 1.3rem;
+  --legend-icon-size: 1.8rem;
+
+  --aniexpo-teal: #65cfcd;
+
+  --drinks-color: #a8e6e4;
+  --food-color: #fbc8d8;
+  --specialty-color: #d8cff7;
+  --bakes-cakes-color: var(--food-color);
+  --cookies-color: var(--specialty-color);
+  --title-color: var(--aniexpo-teal);
+  --title-background-color: transparent;
+  --header-color: #1f5557;
+  --item-color: #2c4a50;
+  --item-color-variant: #a3bfc1;
+  --strikethrough-color: #f08aa0;
+  --background-color: #ffffff;
+}
+
+.title {
+  padding: 2rem 1.5rem 0.5rem;
+}
+
+/* The logo's width is a percentage, so its heading must span the row rather than shrink to fit it. */
+.title h1 {
+  width: 100%;
+}
+
+.title .logo {
+  display: block;
+  width: min(100%, calc(8.5rem * var(--aspect-ratio)));
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+/* Both fonts have a single weight; anything heavier would be faked by thickening the strokes. */
+.title .logo-word {
+  font-family: "Chango", sans-serif;
+  font-weight: 400;
+  fill: var(--aniexpo-teal);
+}
+
+.title .logo-kana {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 400;
+  fill: var(--aniexpo-teal);
+}
+
+/* A marker swash behind the lower half of the name, sized to the text rather than the column. */
+.header {
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  margin-inline: auto;
+  padding: 0 1.4rem;
+  background: none;
+}
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 48% 0 10%;
+  z-index: -1;
+  border-radius: 999px;
+  background-color: var(--category-color);
+}
+
+.item-price {
+  font-family: var(--header-font);
+  font-weight: 600;
+}
+
+.item-leader::after {
+  border-bottom: 0.25rem dotted var(--aniexpo-teal);
+  opacity: 0.6;
+}
+
+.low-stock-icon {
+  color: #ef9a5c;
+}
+.GF-icon {
+  color: #8a76d6;
+}
+.DF-icon {
+  color: #2a9d9a;
+}
+.NF-icon {
+  color: #9c6b45;
+}
+.CN-icon {
+  color: #e0605a;
+}
+.VG-icon {
+  color: #3fae7e;
+}

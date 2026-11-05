@@ -133,6 +133,10 @@ body {
 .dietary-icon, .item-low-stock-icon, .legend > span > * {
   vertical-align: middle;
 }
+/* The icon artwork reaches just past its viewBox, so clipping shaves its edge at fractional sizes. */
+.dietary-icon, .item-low-stock-icon, .legend-icon {
+  overflow: visible;
+}
 .item-name {
   overflow-wrap: anywhere;
   text-wrap: pretty;
