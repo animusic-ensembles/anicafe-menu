@@ -1,0 +1,43 @@
+---
+import { getImage } from "astro:assets";
+import record from "./logo.png";
+import Menu from "../../components/Menu.astro";
+import WhatsOn from "./WhatsOn.astro";
+import "./theme.css";
+
+// About three times the size it is shown at, for sharp edges on high-density screens.
+const optimizedRecord = await getImage({ src: record, width: 450, format: "webp" });
+---
+
+<header class="title">
+  <h1>
+    {/* Positions are baked from the original 300px-tall AniExpo logo, so the title matches it. */}
+    <svg
+      class="logo"
+      viewBox="0 0 1583 300"
+      style="--aspect-ratio: calc(1583 / 300)"
+      role="img"
+      aria-label="AniExpo Eats"
+    >
+      <image href={optimizedRecord.src} x="26.6" y="9.4" width="266.7" height="266.7" />
+      <text class="logo-word" font-size="234" transform="translate(208.9 182) scale(0.631 1)">
+        AniExpo Eats
+      </text>
+      {/* Offsets for the kana, since the font doesn't have good kerning */}
+      <text
+        class="logo-kana"
+        font-size="76"
+        letter-spacing="0.9"
+        x="267"
+        y="259"
+        dx="0 0 0 0 0 0 0 50 -15 -13 8 7"
+      >
+        アニエックスポこうばいぶ
+      </text>
+    </svg>
+  </h1>
+</header>
+
+<Menu>
+  <WhatsOn slot="aside" />
+</Menu>

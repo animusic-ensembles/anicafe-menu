@@ -1,0 +1,20 @@
+---
+---
+
+<div class="menu-status" role="status" aria-live="polite">
+  <span class="status-message">Loading menu…</span>
+  <button class="retry-button" type="button" hidden>Retry</button>
+</div>
+<main class="menu-container" aria-label="Menu" aria-busy="true">
+  {
+    Astro.slots.has("aside") && (
+      <aside class="menu-aside">
+        <slot name="aside" />
+      </aside>
+    )
+  }
+</main>
+<footer class="legend" aria-label="Menu symbols" hidden></footer>
+<script>
+  import "../main.ts";
+</script>

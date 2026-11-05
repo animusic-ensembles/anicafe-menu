@@ -133,6 +133,10 @@ body {
 .dietary-icon, .item-low-stock-icon, .legend > span > * {
   vertical-align: middle;
 }
+/* The icon artwork reaches just past its viewBox, so clipping shaves its edge at fractional sizes. */
+.dietary-icon, .item-low-stock-icon, .legend-icon {
+  overflow: visible;
+}
 .item-name {
   overflow-wrap: anywhere;
   text-wrap: pretty;
@@ -235,8 +239,40 @@ body {
   color: #29a329;
 }
 
+.menu-aside {
+  break-inside: avoid;
+}
+.category + .menu-aside,
+.menu-aside + .category {
+  margin-top: 2rem;
+}
+
+/* With several columns, the aside fills the gap under the first category, which is usually shorter
+   than the columns after it. */
+@media (orientation: landscape) {
+  .menu-container:not(.single-column) > .menu-aside {
+    break-after: column;
+  }
+  /* A forced break keeps the margin after it, which would push the next column's header out of line. */
+  .menu-container:not(.single-column) > .menu-aside + .category {
+    margin-top: 0;
+  }
+}
+
+/* A single column has no gap to fill, so the aside moves below the menu instead. */
+.menu-container.single-column {
+  display: flex;
+  flex-direction: column;
+}
+.single-column > .menu-aside {
+  order: 1;
+}
 @media (orientation: portrait) {
   .menu-container {
-    column-count: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .menu-aside {
+    order: 1;
   }
 }

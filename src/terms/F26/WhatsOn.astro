@@ -1,0 +1,98 @@
+---
+interface Slide {
+  title: string;
+  where: string;
+  when: string;
+  blurb?: string;
+  rows?: { lead?: string; text: string; note?: string }[];
+  // Replaces the rows with what is playing now and next, from the live setlist.
+  setlist?: boolean;
+}
+
+const SLIDES: Slide[] = [
+  {
+    title: "Panel Schedule",
+    where: "Right here in the Bombshelter",
+    when: "6:00–10:00 PM",
+    rows: [
+      { lead: "6:00–7:00", text: "Oshikatsu Panel", note: "Civil Fortissimo & Wynn Terra" },
+      { lead: "7:30–8:00", text: "Why I Love Slice of Life Anime", note: "Ricky Chen" },
+      { lead: "9:10–9:40", text: "Arranging 101", note: "Henri K, Alexander ZO & Daniel W" },
+    ],
+  },
+  {
+    title: "Tabletop Games",
+    where: "Lower Flexspace, basement",
+    when: "5:00–10:00 PM",
+    blurb: "Drop in for a free tabletop game with the Pokémon and Boardgame clubs!",
+  },
+  {
+    title: "Cosplay Photoshoot",
+    where: "SLC Marketplace",
+    when: "7:00–9:00 PM",
+    blurb: "Come in cosplay and get your photo taken for free, backdrop included!",
+  },
+  {
+    title: "Arcade",
+    where: "MPR",
+    when: "5:00–10:00 PM",
+    blurb: "Free console games with the Fighting Game, Rhythm Gaming and Mario Kart clubs!",
+  },
+  {
+    title: "Club Booths",
+    where: "Great Hall & Lower Flexspace",
+    when: "6:00–10:00 PM",
+    rows: [
+      { text: "UW Visual Arts", note: "Doodle trades & live commissions" },
+      { text: "UW Furry Club", note: "Kandi bracelet workshop, Lower Flexspace" },
+      { text: "UW Hip Pop, UW K-Dance & UW ViVA" },
+    ],
+  },
+  {
+    title: "Performances",
+    where: "Great Hall",
+    when: "6:00–10:00 PM",
+    blurb: "Anime and game music, from Mario to Bocchi!",
+    rows: [{ lead: "Guests", text: "UW Breakers & UW Hip Pop" }],
+    setlist: true,
+  },
+];
+---
+
+<section class="whats-on">
+  <div class="whats-on-top">
+    <p class="whats-on-kicker">What's Happening</p>
+    <div class="whats-on-dots" aria-hidden="true">
+      {SLIDES.map((_, index) => <span class:list={["whats-on-dot", { "is-current": index === 0 }]} />)}
+    </div>
+  </div>
+  {/* Every slide shares one grid cell, so the box is as tall as the tallest and never jumps. */}
+  <div class="whats-on-slides">
+    {
+      SLIDES.map(({ title, where, when, blurb, rows = [], setlist }, index) => (
+        <article class:list={["whats-on-slide", { "is-current": index === 0 }]}>
+          <h2 class="whats-on-title">{title}</h2>
+          <p class="whats-on-where">
+            {where} · {when}
+          </p>
+          {blurb && <p class="whats-on-blurb">{blurb}</p>}
+          <ul class="items whats-on-rows" data-setlist={setlist}>
+            {rows.map(({ lead, text, note }) => (
+              <li class="whats-on-row">
+                <span class="whats-on-lead">{lead ?? "•"}</span>
+                <span>
+                  {text}
+                  {note && <span class="whats-on-note">{note}</span>}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import "./whatsOn";
+</script>
