@@ -1,35 +1,48 @@
 :root {
-  font-family: sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  
-  font-family: var(--base-font);
-  font-weight: var(--base-font-weight);
-  font-style: var(--base-font-style);
+  font-size: max(14px, min(1.1vw, 1.8vh));
+  font-family: var(--base-font, sans-serif);
+  font-weight: var(--base-font-weight, 400);
+  font-style: var(--base-font-style, normal);
 }
 
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html, body {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  cursor: none;
 }
 
 .menu-container {
+  --column-gap: 3rem;
   width: 100%;
-  height: calc(100vh - 7rem);
-  display: flex;
-  background-color: var(--background-color);
+  max-width: calc(var(--columns, 1) * (48rem + var(--column-gap)));
+  margin: 0 auto auto;
+  padding: 2rem clamp(1rem, 4vw, var(--column-gap));
+  column-count: var(--columns, 1);
+  column-gap: var(--column-gap);
 }
 
 .category {
-  width: 100%;
-  height: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  break-inside: avoid;
+}
+/* A margin, unlike padding, is dropped at the top of a column and adds nothing after the last category. */
+.category + .category {
+  margin-top: 2rem;
 }
 
 .title {
@@ -47,10 +60,46 @@ html, body {
   background-color: var(--title-background-color);
 }
 
+.title h1 {
+  font: inherit;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
 .title::before, .title::after {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+  flex-shrink: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.menu-status {
+  padding: 1rem 1.5rem;
+  color: var(--item-color);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.retry-button {
+  font: inherit;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .header {
@@ -59,32 +108,78 @@ html, body {
   font-style: var(--header-font-style);
 
   text-align: center;
+  text-wrap: balance;
   font-size: 3rem;
   padding: 0.6rem 1.5rem;
   color: var(--header-color);
   background-color: var(--category-color);
 }
 
+.items {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem clamp(0.5rem, 3vw, 1.5rem) 0;
+}
+
 .item {
   color: var(--item-color);
-  display: flex;
-  justify-content: space-between;
-  margin: 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: last baseline;
+  column-gap: 1.5rem;
+  overflow-x: clip;
   font-size: var(--base-font-size);
 }
-.item-name > *, .legend > span > * {
+.dietary-icon, .item-low-stock-icon, .legend > span > * {
   vertical-align: middle;
 }
+.item-name {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.item-name-end {
+  white-space: nowrap;
+}
+.item-leader {
+  position: relative;
+  display: inline-block;
+}
+/* The dots run past the price; its background hides them and the item clips the rest. */
+.item-leader::after {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.25em;
+  width: 100vw;
+  border-bottom: 0.2rem dotted currentColor;
+  opacity: 0.4;
+}
 .item-price {
-  margin-left: 1.5rem;
+  position: relative;
+  padding-left: 0.5rem;
+  background-color: var(--background-color);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .strikethrough {
-  text-decoration: line-through;
-  
+  position: relative;
   color: var(--item-color-variant);
-  text-decoration-color: var(--strikethrough-color);
-  text-decoration-thickness: 0.2rem;
+}
+/* One line-height tile per line, so a wrapped name is struck through every line, not between them. */
+.strikethrough::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    transparent calc(50% - 0.1em),
+    var(--strikethrough-color) 0 calc(50% - 0.1em + 0.2rem),
+    transparent 0
+  );
+  background-size: 100% 1lh;
+}
+.strikethrough .item-leader {
+  visibility: hidden;
 }
 
 .dietary-icon {
@@ -99,16 +194,18 @@ html, body {
 }
 
 .legend {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 33%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.5rem;
   padding: 1.5rem;
   font-size: var(--legend-font-size);
   color: var(--item-color);
 }
 .legend > span {
-  margin-right: 0.75rem
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 .legend-icon {
   width: var(--legend-icon-size);
@@ -138,57 +235,8 @@ html, body {
   color: #29a329;
 }
 
-@media only screen and (min-width: 2000px) and (orientation: landscape) {
-  :root {
-      font-size: 20px;
-  }
-}
-
-@media only screen and (max-width: 1600px) and (orientation: landscape) {
-  :root {
-      font-size: 12px;
-  }
-  
-  .item {
-      margin: 1.2rem;
-  }
-}
-
-@media only screen and (max-width: 1200px) and (orientation: landscape) {
-  :root {
-      font-size: 10px;
-  }
-}
-
 @media (orientation: portrait) {
   .menu-container {
-    flex-direction: column;
-  }
-  .legend {
-    width: calc(100% - 3rem);
-  }
-}
-
-@media only screen and (max-width: 1200px) and (orientation: portrait) {
-  :root {
-      font-size: 14px;
-  }
-}
-
-@media only screen and (max-width: 800px) and (orientation: portrait) {
-  :root {
-      font-size: 11px;
-  }
-}
-
-@media only screen and (max-width: 500px) and (orientation: portrait) {
-  :root {
-      font-size: 8px;
-  }
-}
-
-@media only screen and (max-width: 400px) and (orientation: portrait) {
-  :root {
-      font-size: 6px;
+    column-count: 1;
   }
 }
