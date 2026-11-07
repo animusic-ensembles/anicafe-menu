@@ -1,5 +1,6 @@
 const SLIDE_MS = 10_000;
 const SETLIST_POLL_MS = 30_000;
+const SHOW_START_HOUR = 18;
 
 const SETLIST_URL = `https://docs.google.com/spreadsheets/d/1PUxVDHJ1pWjaCeNkdItMfgorH64ZjHvEUDBD6sVOHow/gviz/tq?${new URLSearchParams(
   {
@@ -19,7 +20,7 @@ interface Row {
 interface Song {
   title: string;
   runner: string;
-  started: boolean;
+  finished: boolean;
 }
 
 interface Cell {
@@ -56,32 +57,41 @@ const parseSetlist = (response: string): Song[] => {
   const json = response.slice(response.indexOf("{"), response.lastIndexOf("}") + 1);
   const { table } = JSON.parse(json);
   return table.rows
-    .map(({ c: [title, runner, started] }: { c: (Cell | null)[] }) => ({
+    .map(({ c: [title, runner, finished] }: { c: (Cell | null)[] }) => ({
       // Guest acts are marked with a trailing asterisk for the crew.
       title: String(title?.v ?? "").replace(/\*?\s*$/, ""),
       runner: String(runner?.v ?? "").trim(),
-      started: started?.v === true,
+      finished: finished?.v === true,
     }))
     .filter(({ title }: Song) => title);
 };
 
-// The crew ticks each song as it starts, so the last ticked one is playing or has just finished.
-const nowAndNext = (songs: Song[]): Row[] => {
-  const playing = songs.map(({ started }) => started).lastIndexOf(true);
-  if (playing < 0) return [];
+// The kiosk's clock may not be set to the venue's time zone.
+const venueHour = () =>
+  Number(
+    new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", hour: "numeric", hourCycle: "h23" }).format(new Date()),
+  );
 
-  const current = songs[playing];
-  const rows: Row[] = [{ lead: "Now", text: current.title, note: current.runner }];
-  const next = songs[playing + 1];
-  if (next) rows.push({ lead: "Next", text: next.title, note: next.runner });
-  return rows;
+// The crew ticks each song once it finishes, so nothing is ticked while the first song plays.
+const nowAndNext = (songs: Song[], showStarted: boolean): Row[] => {
+  const finished = songs.map(({ finished }) => finished).lastIndexOf(true);
+  if (finished < 0 && !showStarted) return [];
+
+  const current = songs[finished + 1];
+  if (!current) return [];
+
+  const next = songs[finished + 2];
+  return [
+    { lead: "Now", text: current.title, note: current.runner },
+    ...(next ? [{ lead: "Next", text: next.title, note: next.runner }] : []),
+  ];
 };
 
 const showSetlist = async () => {
   try {
     const response = await fetch(SETLIST_URL);
     if (!response.ok) return;
-    const rows = nowAndNext(parseSetlist(await response.text()));
+    const rows = nowAndNext(parseSetlist(await response.text()), venueHour() >= SHOW_START_HOUR);
     setlist?.replaceChildren(...(rows.length > 0 ? rows.map(row) : defaultSetlistContent));
   } catch (error) {
     console.warn("Failed to load the setlist", error);
