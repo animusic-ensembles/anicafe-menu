@@ -1,5 +1,5 @@
 :root {
-  font-size: max(14px, min(1.1vw, 1.8vh));
+  font-size: max(14px, calc(min(1.1vw, 1.8vh) * var(--fit, 1)));
   font-family: var(--base-font, sans-serif);
   font-weight: var(--base-font-weight, 400);
   font-style: var(--base-font-style, normal);

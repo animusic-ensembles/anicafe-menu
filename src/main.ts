@@ -12,6 +12,17 @@ const legend = document.querySelector<HTMLElement>(".legend")!;
 
 retry.addEventListener("click", () => window.location.reload());
 
+// Crew add items during an event, so the text shrinks rather than pushing the menu off the screen.
+const MIN_FIT = 0.8;
+const root = document.documentElement;
+const fitToScreen = () => {
+  root.style.setProperty("--fit", "1");
+  const fit = Math.max(MIN_FIT, Math.min(1, window.innerHeight / root.scrollHeight));
+  root.style.setProperty("--fit", String(fit));
+};
+// Watches the body, so a longer setlist entry refits the screen as well as a menu change or resize.
+new ResizeObserver(fitToScreen).observe(document.body);
+
 interface ConnectionState {
   readonly receivedMenu: boolean;
   readonly fromCache: boolean;
